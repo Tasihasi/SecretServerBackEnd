@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta
 import hashlib
 from flask import jsonify
-from ..db import get_db
+from ...main import db
+from sqlalchemy import text
 
 
 
@@ -69,11 +70,9 @@ class PostData:
         return hashlib.sha256(self.secret_text.encode()).hexdigest()
     
     def _is_hash_unique(self, hash: str) -> bool:
-        db = get_db()
-
         # Check if the generated hash is already in the database
-        query = "SELECT 1 FROM secret WHERE hashText = ? LIMIT 1;"
-        result = db.execute(query, (hash,)).fetchone()
+        query = text( "SELECT 1 FROM secret WHERE hashText = :hash LIMIT 1;")
+        result = db.session.execute(query, {'hash': self._hash}).fetchone()
         return result is None  # If no record found, the hash is unique
     
     def _generate_unique_hash(self) -> str:
@@ -103,30 +102,28 @@ class PostData:
         if not self._check_necessary_data():
             return False
 
-        # Get the database connection
-        db = get_db()
-
         # Prepare the insert query and data
-        query = """
+        query = text(  """
         INSERT INTO secret (hashText, secretMessage, retrievalCount, expiration)
         VALUES (?, ?, ?, ?)
-        """
-        data = (
-            self.hash,
-            self.secret_text,
-            self.expire_after_views,
-            self.expire_after
-        )
+        """)
+
+        data = {
+            'hash': self.hash,
+            'secretMessage': self.secret_text,
+            'retrievalCount': self.expire_after_views,
+            'expiration': self.expire_after
+        }
 
         try:
             # Execute the query and commit the transaction
 
-            db.execute(query, data)
-            db.commit()
+            db.session.execute(query, data)
+            db.session.commit()
             return True
         except Exception as e:
             print(f"An error occurred: {e}")
-            db.rollback()
+            db.session.rollback()
             return False
     
     
