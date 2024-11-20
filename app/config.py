@@ -2,7 +2,7 @@ import os
 
 class Config:
     SECRET_KEY = 'you-will-never-guess'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///app/flask_app/app.db'  # Change this to point to the correct location
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///' + os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app.db'))
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DATABASE = os.getenv("DATABASE_URL")  # Adjust path as needed
     BASE_DIR = os.path.abspath(os.path.dirname(__file__))
