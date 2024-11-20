@@ -1,5 +1,5 @@
 from flask import jsonify
-from flask_app import db
+from ...main import db
 
 
 class GetData:
@@ -22,8 +22,6 @@ class GetData:
         if not self._hash:
             return "Hash was not provided."
 
-        # Get the database connection
-        db = get_db()
         try:
 
             # Decrease the retrieval count, ensuring it is only updated if count > 0
