@@ -1,6 +1,6 @@
 from flask import jsonify
 from ...main import db
-
+from sqlalchemy import text
 
 class GetData:
     def __init__(self, hash : str):
@@ -25,18 +25,18 @@ class GetData:
         try:
 
             # Decrease the retrieval count, ensuring it is only updated if count > 0
-            update_query = """
+            update_query = text("""
             UPDATE secret
             SET retrievalCount = retrievalCount - 1
-            WHERE hashText = ? AND retrievalCount > 0;
-            """
+            WHERE hashText = :hash AND retrievalCount > 0;
+            """)
             db.session.execute(update_query, (self._hash,))
             db.session.commit()
 
             # Now fetch the secretMessage from the same row
-            select_query = """
-            SELECT secretMessage FROM secret WHERE hashText = ? AND retrievalCount > 0;
-            """
+            select_query = text("""
+            SELECT secretMessage FROM secret WHERE hashText = :hash AND retrievalCount > 0;
+            """)
             result = db.session.execute(select_query, (self._hash,)).fetchone()
 
 
