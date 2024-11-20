@@ -2,7 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
-from ..config import Config
+from app.config import Config
 #from .model import ManageDB
 from . import db
 
@@ -14,6 +14,7 @@ def create_app():
     # TODO correct path
     #app.config.from_object('config.Config')
     app.config.from_object('config.Config')
+    app.config.from_object(Config)
 
     # Initialize the database with the app
     db.init_app(app)
