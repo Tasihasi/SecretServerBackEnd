@@ -1,34 +1,43 @@
-from flask_sqlalchemy import SQLAlchemy
-from flask import Flask
-from datetime import datetime 
+import sqlite3
+from datetime import datetime
 import click
+from flask import current_app, g
 
-# Create an instance of SQLAlchemy
-db = SQLAlchemy()
+def get_db():
+    """Returns a connection to the SQLite database."""
+    print("Database path: ", current_app.config['DATABASE'])
+    if 'db' not in g:
+        g.db = sqlite3.connect(
+            current_app.config['DATABASE'],  # Get the database from config
+            detect_types=sqlite3.PARSE_DECLTYPES
+        )
+        g.db.row_factory = sqlite3.Row  # This allows us to access rows as dictionaries
 
-def init_app(app):
-    """
-    Initialize the app with the database.
-    - Bind the SQLAlchemy instance to the Flask app.
-    - Register teardown and CLI commands if needed.
-    """
-    db.init_app(app)  # Bind SQLAlchemy to the Flask app
-
-    # Create database tables if they don't exist (useful for local development)
-    with app.app_context():
-        db.create_all()
+    return g.db
 
 def init_db():
-    """
-    Manually initialize the database (usually for migrations).
-    Not typically needed when using Flask-Migrate.
-    """
-    db.create_all()
+    """Initializes the database by executing schema.sql."""
+    db = get_db()
 
-# If you still want a CLI command for initializing the database (optional)
+    with current_app.open_resource('schema.sql') as f:
+        db.executescript(f.read().decode('utf8'))  # Execute the SQL commands from the schema file
 
 @click.command('init-db')
 def init_db_command():
     """Command to initialize the database."""
     init_db()
     click.echo('Initialized the database.')
+
+sqlite3.register_converter(
+    "timestamp", lambda v: datetime.fromisoformat(v.decode())  # Registers timestamp conversion
+)
+
+def init_app(app):
+    app.teardown_appcontext(close_db)
+    app.cli.add_command(init_db_command)
+
+def close_db(e=None):
+    """Closes the database connection."""
+    db = g.pop('db', None)
+    if db is not None:
+        db.close()
