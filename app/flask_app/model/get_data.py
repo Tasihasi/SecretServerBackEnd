@@ -43,7 +43,8 @@ class GetData:
 
             # If a row is found, return the secretMessage, otherwise return a default message
             if result:
-                return result['secretMessage']
+                return result[0]
+                #return result['secretMessage']
             else:
                 return "No secret found for this hash."
         except Exception as e:
