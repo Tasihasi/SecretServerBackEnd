@@ -72,7 +72,7 @@ class PostData:
     def _is_hash_unique(self, hash: str) -> bool:
         # Check if the generated hash is already in the database
         query = text( "SELECT 1 FROM secret WHERE hashText = :hash LIMIT 1;")
-        result = db.session.execute(query, {'hash': self._hash}).fetchone()
+        result = db.session.execute(query, {'hash': hash}).fetchone()
         return result is None  # If no record found, the hash is unique
     
     def _generate_unique_hash(self) -> str:
