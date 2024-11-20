@@ -3,10 +3,11 @@ from flask_cors import CORS
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from app.config import Config
+from flask_sqlalchemy import SQLAlchemy
 #from .model import ManageDB
 from . import db
 
-
+db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
@@ -19,7 +20,7 @@ def create_app():
     db.init_app(app)
 
     # Register the command for initializing the database
-    app.cli.add_command(db.init_db_command)
+    #app.cli.add_command(db.init_db_command)
 
     CORS(app)
 

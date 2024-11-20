@@ -1,5 +1,5 @@
 from flask import jsonify
-from ..db import get_db
+from flask_app import db
 
 
 class GetData:
