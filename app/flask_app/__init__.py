@@ -2,7 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
-from .. import config
+from ..config import Config
 #from .model import ManageDB
 from . import db
 
