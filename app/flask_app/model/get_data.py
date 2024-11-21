@@ -1,5 +1,4 @@
 from flask import jsonify
-
 from sqlalchemy import text
 
 class GetData:
@@ -18,7 +17,10 @@ class GetData:
         if not self._hash:
             return "Hash was not provided."
         
+        # Needs to delete the import because the ManageDB is imported from this module
+        # IF the db is not declared  before importing -> circular import error
         from ...main import db
+        
 
         try:
             update_query = text
