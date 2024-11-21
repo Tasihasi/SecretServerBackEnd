@@ -5,7 +5,7 @@ from apscheduler.triggers.interval import IntervalTrigger
 from app.config import Config
 from flask_sqlalchemy import SQLAlchemy
 from .model import ManageDB
-from . import db
+#from . import db
 
 db = SQLAlchemy()
 
