@@ -28,6 +28,7 @@ if __name__ == "__main__":
     schedule.every(1).minutes.do(job)
 
     while True:
+        raise RuntimeError ("meeeghs")
         schedule.run_pending()
         time.sleep(1)
 
