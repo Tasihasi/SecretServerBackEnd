@@ -6,16 +6,15 @@ class ManageDB:
     def _delete_record(hash:str) -> bool:
         if not hash:
             return True
-        
 
         try: 
-            delete_query = text( """
+            delete_query = text
+            ( """
             DELETE FROM secret
             WHERE hashText = :hash;
             """)
             db.session.execute(delete_query, {'hash': hash}).fetchone()
             db.session.commit()
-
 
             return True
 

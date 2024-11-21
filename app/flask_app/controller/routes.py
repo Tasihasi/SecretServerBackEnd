@@ -1,16 +1,8 @@
-from flask import current_app as app, render_template
 from flask import Blueprint, request, jsonify
 from ..model import GetData, PostData
 from .Is_valid_request import is_valid_request
-from dicttoxml import dicttoxml
 
-
-# Create a blueprint instance
 main_blueprint = Blueprint('main', __name__)
-
-def dict_to_xml(data):
-    """Convert dictionary to XML format."""
-    return dicttoxml(data).decode('utf-8')
 
 @main_blueprint.route("/")
 def home():
@@ -23,10 +15,8 @@ def save_secret():
     if not is_valid_request(request):
         return jsonify({"Error": "Invalid input"}), 405
     
-    
     try:
-        # Parse JSON data (form data is for simple forms, but you want JSON here)
-        data = request.get_json()  # This will parse the JSON body sent from the React app
+        data = request.get_json()
         post_data = PostData(data['secretText'], int(data['retrievalCount']), int(data['expiryDate']))
 
         if post_data.post_to_db():
@@ -47,4 +37,3 @@ def get_secret(hash):
 
     except Exception as e:
         return jsonify({"Error": "Error retrieving secret."}), 500 
-    
