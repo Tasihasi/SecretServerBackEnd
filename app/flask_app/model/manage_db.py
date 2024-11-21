@@ -1,4 +1,5 @@
-from ..db import get_db
+from ...main import db
+from sqlalchemy import text
 
 class ManageDB:
     @staticmethod
