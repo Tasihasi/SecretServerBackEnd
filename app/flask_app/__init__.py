@@ -18,6 +18,8 @@ def create_app():
     db.init_app(app)
 
     CORS(app)
+     # Configure CORS to allow requests from the specific origin
+    CORS(app, resources={r"/*": {"origins": "https://tasihasi.github.io"}})
 
     with app.app_context():
         from .controller.routes import main_blueprint
