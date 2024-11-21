@@ -13,8 +13,9 @@ logger = logging.getLogger(__name__)
 
 # Initialize the scheduler after app creation
 def job():
+    raise RuntimeError ("Perhaps this will stop")
     ManageDB.ServerTick()
-    logging.info("Job R")
+    
 
 def scheduler_thread():
     while True:
@@ -23,10 +24,6 @@ def scheduler_thread():
     
 
 if __name__ == "__main__":
-    logging.INFO("app running with big letters")
-    logging.info("app running with small letters")
-    print("maybe print please ")
-
     schedule.every(1).minutes.do(job)
 
      # Start scheduler in a separate thread
