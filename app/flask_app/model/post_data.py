@@ -75,11 +75,8 @@ class PostData:
             if self._is_hash_unique(generated_hash):
                 return generated_hash
 
-    def _calculate_expiration(self):
-        if self.expire_after <= 0:
-            return None
-        else:
-            return self.created_at + timedelta(minutes=self.expire_after)
+    def _calculate_expiration(self, minutes : int):
+        return self.created_at + timedelta(minutes=minutes)
     
     def _check_necessary_data(self) -> bool:
         if self.hash and self.secret_text and self.expire_after and self.expire_after_views:
@@ -94,15 +91,16 @@ class PostData:
 
         # Prepare the insert query and data
         query = text(  """
-        INSERT INTO secret (hashText, secretMessage, retrievalCount, expiration)
-        VALUES (:hash, :secretMessage, :retrievalCount, :expiration)
+        INSERT INTO secret (hashText, secretMessage, retrievalCount, expiration, expiration_date)
+        VALUES (:hash, :secretMessage, :retrievalCount, :expiration, :expiration_date)
         """)
 
         data = {
             'hash': self.hash,
             'secretMessage': self.secret_text,
             'retrievalCount': self.expire_after_views,
-            'expiration': self.expire_after
+            'expiration': self.expiration_date, 
+            'expiration_date' : self.expiration_date
         }
 
         try:

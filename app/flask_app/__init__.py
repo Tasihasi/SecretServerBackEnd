@@ -3,9 +3,9 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 
 # TODO if the expire date is 0 then it never expires 
-# -> add the expire date to -1 and than if -1 never delete it
+# It dose not deletes when it expires 
 # TODO implement the mimetype change
-# TODO how to implement the time manager?
+# TODO change the data type to datetime 
 
 db = SQLAlchemy()
 

@@ -1,5 +1,6 @@
 from ...main import db
 from sqlalchemy import text
+import datetime
 
 class ManageDB:
     @staticmethod
@@ -37,41 +38,37 @@ class ManageDB:
         except Exception as e:
             return
 
-    @staticmethod
-    def _update_expiration_date() -> None:
 
-        try: 
-            update_query = text( """
-            UPDATE secret
-            SET expiration = expiration - 1;
-            """)
-            db.session.execute(update_query).fetchall()
-            db.session.commit()
-
-        except Exception as e:
-            return
-        
     @staticmethod
     def _delete_expired_data() -> None:
-        try: 
-            select_query = text( """
-            SELECT hashText FROM secret WHERE expiration <= 0 AND expiration != -1;
+        try:
+            # Get the current time
+            current_time = datetime.now()
+
+            # Query to select hashText where expiration is in the past and expiration is not -1
+            select_query = text("""
+            SELECT hashText, expiration FROM secret WHERE expiration != -1
             """)
 
             result = db.session.execute(select_query).fetchall()
 
             for row in result:
                 hash = row[0]
-                if not ManageDB._delete_record(hash):
-                    return
+                expiration_date = row[1]
+
+                # Check if the expiration date is in the past
+                if expiration_date and expiration_date < current_time:
+                    # If the expiration date is in the past, delete the record
+                    if not ManageDB._delete_record(hash):
+                        return  # Stop if any delete fails
 
         except Exception as e:
+            print(f"An error occurred: {e}")
             return
         
     @staticmethod
     def ServerTick():
         ManageDB._check_retrievals()
-        ManageDB._update_expiration_date()
         ManageDB._delete_expired_data()
 
     # TODO how to manage if the timer set to 0 and not wanting to delete?
