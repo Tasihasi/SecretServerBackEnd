@@ -58,7 +58,7 @@ class ManageDB:
         try: 
             select_query = text
             ( """
-            SELECT hashText FROM secret WHERE expiration <= 0;
+            SELECT hashText FROM secret WHERE expiration <= 0 AND expiration != -1;
             """)
 
             result = db.session.execute(select_query).fetchall()

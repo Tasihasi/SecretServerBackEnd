@@ -5,9 +5,7 @@ from flask import Flask
 import schedule, threading, time
 from .flask_app.model import ManageDB  # Import ManageDB here to avoid circular imports
 
-
 app = create_app()
-
 
 
 # Initialize the scheduler after app creation

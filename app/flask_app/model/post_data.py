@@ -6,11 +6,16 @@ from sqlalchemy import text
 class PostData:
     def __init__(self, secret_text: str, expire_after_views: int, expire_after: int):
 
-        if expire_after_views < 1 or expire_after < 0:
+        if expire_after_views < 1:
             raise ValueError("Expiration values must be non-negative")
+        if expire_after < 0:
+            raise ValueError("Expiration time must be non-negative")
+        elif expire_after == 0:
+            self.expire_after = -1
         
         self._secret_text = secret_text
         self._expire_after_views = expire_after_views
+        
         self._expire_after = expire_after
         self._hash = self._generate_unique_hash()
         self._created_at = datetime.now()
