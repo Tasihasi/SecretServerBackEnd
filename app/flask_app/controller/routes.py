@@ -2,9 +2,15 @@ from flask import current_app as app, render_template
 from flask import Blueprint, request, jsonify
 from ..model import GetData, PostData
 from .Is_valid_request import is_valid_request
+from dicttoxml import dicttoxml
+
 
 # Create a blueprint instance
 main_blueprint = Blueprint('main', __name__)
+
+def dict_to_xml(data):
+    """Convert dictionary to XML format."""
+    return dicttoxml(data).decode('utf-8')
 
 @main_blueprint.route("/")
 def home():
@@ -16,6 +22,7 @@ def home():
 def save_secret():
     if not is_valid_request(request):
         return jsonify({"Error": "Invalid input"}), 405
+    
     
     try:
         # Parse JSON data (form data is for simple forms, but you want JSON here)
