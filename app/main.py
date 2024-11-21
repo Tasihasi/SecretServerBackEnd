@@ -25,6 +25,7 @@ def scheduler_thread():
 if __name__ == "__main__":
     logging.INFO("app running with big letters")
     logging.info("app running with small letters")
+    print("maybe print please ")
 
     schedule.every(1).minutes.do(job)
 
