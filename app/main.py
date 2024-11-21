@@ -23,6 +23,9 @@ def scheduler_thread():
     
 
 if __name__ == "__main__":
+    logging.INFO("app running with big letters")
+    logging.info("app running with small letters")
+
     schedule.every(1).minutes.do(job)
 
      # Start scheduler in a separate thread
