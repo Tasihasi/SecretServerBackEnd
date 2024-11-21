@@ -97,7 +97,7 @@ class PostData:
 
         # Prepare the insert query and data
         query = text(  """
-        INSERT INTO secret (hashText, secretMessage, retrievalCount, expiration, expiration_date)
+        INSERT INTO messages (hashText, secretMessage, retrievalCount, expiration, expiration_date)
         VALUES (:hash, :secretMessage, :retrievalCount, :expiration, :expiration_date)
         """)
 
