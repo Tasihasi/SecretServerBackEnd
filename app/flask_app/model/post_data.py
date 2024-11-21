@@ -89,6 +89,11 @@ class PostData:
 
         if not self._check_necessary_data():
             return False
+        
+        if self._expiration_date:
+            expiration_date_str = self._expiration_date.strftime('%Y-%m-%d %H:%M:%S')
+        else:
+            expiration_date_str = None
 
         # Prepare the insert query and data
         query = text(  """
