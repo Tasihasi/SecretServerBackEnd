@@ -7,15 +7,15 @@ class ManageDB:
         if not hash:
             return True
         
-        db = get_db()
 
         try: 
-            delete_query = """
+            delete_query = text( """
             DELETE FROM secret
-            WHERE hashText = ?;
-            """
-            db.execute(delete_query, (hash,))
-            db.commit()
+            WHERE hashText = :hash;
+            """)
+            db.session.execute(delete_query, {'hash': hash}).fetchone()
+            db.session.commit()
+
 
             return True
 
@@ -26,19 +26,17 @@ class ManageDB:
 
     @staticmethod
     def _check_retrievals() -> None:
-        db = get_db()
-
         try: 
-            select_query = """
+            select_query = text( """
             SELECT hashText FROM secret WHERE retrievalCount <= 0;
-            """
+            """)
 
             # Execute the query and fetch all matching rows
-            result = db.execute(select_query).fetchall()
+            result = db.session.execute(select_query).fetchall()
 
             # For each row, delete the corresponding record using the _delete_record method
             for row in result:
-                hash = row['hashText']
+                hash = row[0]
                 # Call the delete function for each hash
                 if not ManageDB._delete_record(hash):
                     return
@@ -49,15 +47,14 @@ class ManageDB:
 
     @staticmethod
     def _update_expiration_date() -> None:
-        db = get_db()
 
         try: 
-            update_query = """
+            update_query = text( """
             UPDATE secret
             SET expiration = expiration - 1;
-            """
-            db.execute(update_query)
-            db.commit()
+            """)
+            db.session.execute(update_query).fetchall()
+            db.session.commit()
 
         except Exception as e:
             return
@@ -65,19 +62,18 @@ class ManageDB:
 
     @staticmethod
     def _delete_expired_data() -> None:
-        db = get_db()
 
         try: 
-            select_query = """
+            select_query = text( """
             SELECT hashText FROM secret WHERE expiration <= 0;
-            """
+            """)
 
             # Execute the query and fetch all matching rows
-            result = db.execute(select_query).fetchall()
+            result = db.session.execute(select_query).fetchall()
 
             # For each row, delete the corresponding record using the _delete_record method
             for row in result:
-                hash = row['hashText']
+                hash = row[0]
                 # Call the delete function for each hash
                 if not ManageDB._delete_record(hash):
                     return
