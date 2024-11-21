@@ -4,7 +4,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from app.config import Config
 from flask_sqlalchemy import SQLAlchemy
-#from .model import ManageDB
+from .model import ManageDB
 from . import db
 
 db = SQLAlchemy()
@@ -25,7 +25,7 @@ def create_app():
     CORS(app)
 
     # Set up the scheduler to run the task every minute
-    """
+    #"""
     scheduler = BackgroundScheduler(daemon=True)
     scheduler.add_job(
         ManageDB.ServerTick(),  # This is the function you want to run
@@ -34,8 +34,8 @@ def create_app():
         name='Run ServerTick every minute',  # Job name (optional)
         replace_existing=True  # Replace the job if it already exists
     )
-    """
-    #scheduler.start()
+    #"""
+    scheduler.start()
 
     with app.app_context():
         from .controller.routes import main_blueprint
