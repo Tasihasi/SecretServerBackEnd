@@ -2,6 +2,8 @@
 This is a simple Flask application for securely storing and retrieving secrets with an expiration mechanism. 
 The secrets are stored with a unique hash, and you can specify a retrieval count (number of allowed views) and an expiration time (in minutes).
 
+### The frontend: https://github.com/Tasihasi/SecretServer/tree/gh-pages
+
 ## Features
 
 **Store Secrets:** Store a secret with a specific retrieval count and expiration time.
