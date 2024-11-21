@@ -23,8 +23,7 @@ class GetData:
         
 
         try:
-            update_query = text
-            ("""
+            update_query = text("""
             UPDATE secret
             SET retrievalCount = retrievalCount - 1
             WHERE hashText = :hash AND retrievalCount > 0;
@@ -32,8 +31,7 @@ class GetData:
             db.session.execute(update_query, {'hash': self._hash})
             db.session.commit()
 
-            select_query = text
-            ("""
+            select_query = text("""
             SELECT secretMessage FROM secret WHERE hashText = :hash AND retrievalCount > 0;
             """)
             result = db.session.execute(select_query, {'hash': self._hash}).fetchone()

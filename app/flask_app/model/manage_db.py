@@ -8,8 +8,7 @@ class ManageDB:
             return True
 
         try: 
-            delete_query = text
-            ( """
+            delete_query = text( """
             DELETE FROM secret
             WHERE hashText = :hash;
             """)
@@ -42,8 +41,7 @@ class ManageDB:
     def _update_expiration_date() -> None:
 
         try: 
-            update_query = text
-            ( """
+            update_query = text( """
             UPDATE secret
             SET expiration = expiration - 1;
             """)
@@ -56,8 +54,7 @@ class ManageDB:
     @staticmethod
     def _delete_expired_data() -> None:
         try: 
-            select_query = text
-            ( """
+            select_query = text( """
             SELECT hashText FROM secret WHERE expiration <= 0 AND expiration != -1;
             """)
 
