@@ -97,16 +97,16 @@ class PostData:
 
         # Prepare the insert query and data
         query = text(  """
-        INSERT INTO messages (hashText, secretMessage, retrievalCount, expiration, expiration_date)
-        VALUES (:hash, :secretMessage, :retrievalCount, :expiration, :expiration_date)
+        INSERT INTO secret (hashText, secretMessage, retrievalCount, expiration, )
+        VALUES (:hash, :secretMessage, :retrievalCount, :expiration, )
         """)
 
         data = {
             'hash': self.hash,
             'secretMessage': self.secret_text,
             'retrievalCount': self.expire_after_views,
-            'expiration': self.expire_after, 
-            'expiration_date' : self.expiration_date
+            'expiration': self.expire_after
+            #'expiration_date' : self.expiration_date
         }
 
         try:
