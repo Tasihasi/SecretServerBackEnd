@@ -2,30 +2,29 @@ from .flask_app import create_app, db
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from flask import Flask
+import schedule, threading, time
 from .flask_app.model import ManageDB  # Import ManageDB here to avoid circular imports
 
 
 app = create_app()
 
 
+
 # Initialize the scheduler after app creation
-def setup_scheduler():
-    scheduler = BackgroundScheduler(daemon=True)
+def job():
+    ManageDB.ServerTick()
 
-    # Add the job to the scheduler
-    scheduler.add_job(
-        ManageDB.ServerTick(),  # Function to run every minute
-        trigger=IntervalTrigger(minutes=1),  # Interval for the job
-        id='server_tick_job',  # Unique job ID
-        name='Run ServerTick every minute',  # Optional job name
-        replace_existing=True  # Replace job if it exists
-    )
-
-    # Start the scheduler
-    scheduler.start()
-
-# Call the scheduler setup function after app is created
-setup_scheduler()
+def scheduler_thread():
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+    
 
 if __name__ == "__main__":
+
+     # Start scheduler in a separate thread
+    scheduler_thread = threading.Thread(target=scheduler_thread, daemon=True)
+    scheduler_thread.start()
+
     app.run(debug=True)
+    schedule.every(1).minutes.do(job)
