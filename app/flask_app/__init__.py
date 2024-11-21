@@ -3,7 +3,6 @@ from flask_cors import CORS
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from flask_sqlalchemy import SQLAlchemy
-from .model import ManageDB
 #from . import db
 
 # TODO if the expire date is 0 then it never expires 
@@ -23,6 +22,9 @@ def create_app():
     CORS(app)
 
     # Set up the scheduler to run the task every minute
+
+    from .model import ManageDB
+
     #"""
     scheduler = BackgroundScheduler(daemon=True)
     scheduler.add_job(

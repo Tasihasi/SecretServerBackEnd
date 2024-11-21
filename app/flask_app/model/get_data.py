@@ -1,5 +1,5 @@
 from flask import jsonify
-from ...main import db
+
 from sqlalchemy import text
 
 class GetData:
@@ -17,6 +17,8 @@ class GetData:
     def _get_text_from_db(self) -> str:
         if not self._hash:
             return "Hash was not provided."
+        
+        from ...main import db
 
         try:
             update_query = text
