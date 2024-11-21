@@ -23,10 +23,11 @@ def scheduler_thread():
     
 
 if __name__ == "__main__":
+    schedule.every(1).minutes.do(job)
 
      # Start scheduler in a separate thread
     scheduler_thread = threading.Thread(target=scheduler_thread, daemon=True)
     scheduler_thread.start()
 
     app.run(debug=True)
-    schedule.every(1).minutes.do(job)
+    
