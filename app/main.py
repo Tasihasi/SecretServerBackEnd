@@ -1,7 +1,8 @@
 from .flask_app import create_app, db
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
-from flask import Flask, jsonify, requests
+from flask import Flask, jsonify
+import requests
 import schedule, threading, time
 from .flask_app.model import ManageDB  # Import ManageDB here to avoid circular imports
 
