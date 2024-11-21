@@ -1,4 +1,4 @@
-from .flask_app import create_app, db
+from .flask_app import create_app
 
 app = create_app()
 

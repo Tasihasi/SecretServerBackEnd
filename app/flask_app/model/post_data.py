@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
 import hashlib
-from flask import jsonify
 from ...main import db
 from sqlalchemy import text
 
