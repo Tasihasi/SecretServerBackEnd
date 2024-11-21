@@ -12,6 +12,7 @@ class PostData:
             raise ValueError("Expiration time must be non-negative")
         elif expire_after == 0:
             self.expire_after = -1
+            self._expiration_date = self._calculate_expiration(99999999)
         
         self._secret_text = secret_text
         self._expire_after_views = expire_after_views
@@ -19,7 +20,7 @@ class PostData:
         self._expire_after = expire_after
         self._hash = self._generate_unique_hash()
         self._created_at = datetime.now()
-        self._expiration_date = self._calculate_expiration()
+        self._expiration_date = self._calculate_expiration(expire_after)
 
     @property
     def secret_text(self) -> str:
