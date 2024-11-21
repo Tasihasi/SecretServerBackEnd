@@ -68,7 +68,8 @@ class PostData:
     def _is_hash_unique(self, hash: str) -> bool:
         query = text( "SELECT 1 FROM secret WHERE hashText = :hash LIMIT 1;")
         result = db.session.execute(query, {'hash': hash})
-        db.session.close()
+        #db.session.close()
+        print("cute cat")
         return result is None
     
     def _generate_unique_hash(self) -> str:
