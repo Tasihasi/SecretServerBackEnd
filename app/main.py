@@ -2,7 +2,7 @@ from .flask_app import create_app, db
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from flask import Flask
-from .model import ManageDB  # Import ManageDB here to avoid circular imports
+from .flask_app.model import ManageDB  # Import ManageDB here to avoid circular imports
 
 
 app = create_app()
