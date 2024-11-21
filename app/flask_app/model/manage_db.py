@@ -10,7 +10,7 @@ class ManageDB:
 
         try: 
             delete_query = text( """
-            DELETE FROM messages
+            DELETE FROM secret
             WHERE hashText = :hash;
             """)
             db.session.execute(delete_query, {'hash': hash}).fetchone()
@@ -25,7 +25,7 @@ class ManageDB:
     def _check_retrievals() -> None:
         try: 
             select_query = text( """
-            SELECT hashText FROM messages WHERE retrievalCount <= 0;
+            SELECT hashText FROM secret WHERE retrievalCount <= 0;
             """)
 
             result = db.session.execute(select_query).fetchall()
@@ -47,7 +47,7 @@ class ManageDB:
 
             # Query to select hashText where expiration is in the past and expiration is not -1
             select_query = text("""
-            SELECT hashText, expiration FROM messages WHERE expiration != -1
+            SELECT hashText, expiration FROM secret WHERE expiration != -1
             """)
 
             result = db.session.execute(select_query).fetchall()

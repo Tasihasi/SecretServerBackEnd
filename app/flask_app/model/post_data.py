@@ -106,7 +106,6 @@ class PostData:
             'secretMessage': self.secret_text,
             'retrievalCount': self.expire_after_views,
             'expiration': self.expire_after
-            #'expiration_date' : self.expiration_date
         }
 
         try:
