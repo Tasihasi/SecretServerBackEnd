@@ -14,11 +14,12 @@ class PostData:
         elif expire_after == 0:
             self._expire_after = -1
             #self._expiration_date = self._calculate_expiration(99999999)
-        
+        else:
+            self._expire_after = self._gen_current_time_to_int() + expire_after
         self._secret_text = secret_text
         self._expire_after_views = expire_after_views
         
-        self._expire_after = self._gen_current_time_to_int() + expire_after
+        
         print(f"inserted expiartion number : {self._expire_after}")
         self._hash = self._generate_unique_hash()
         self._created_at = datetime.now()
