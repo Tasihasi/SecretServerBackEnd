@@ -17,7 +17,8 @@ class PostData:
         self._secret_text = secret_text
         self._expire_after_views = expire_after_views
         
-        self._expire_after = expire_after
+        self._expire_after = self._gen_current_time_to_int() + expire_after
+        print(f"inserted expiartion number : {self._expiration_date}")
         self._hash = self._generate_unique_hash()
         self._created_at = datetime.now()
         self._expiration_date = self._calculate_expiration(expire_after)
@@ -86,6 +87,19 @@ class PostData:
             return True
         
         return False
+
+    def _gen_current_time_to_int(self):
+        # Get the current time
+        now = datetime.now()
+        
+        # Extract hour and minute
+        hour = now.hour
+        minute = now.minute
+        
+        # Combine hour and minute into an integer in the format HHMM
+        time_int = hour * 60 + minute
+        
+        return time_int
     
     def post_to_db(self) -> bool:
 

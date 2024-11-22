@@ -37,3 +37,4 @@ def get_secret(hash):
 
     except Exception as e:
         return jsonify({"Error": "Error retrieving secret."}), 500 
+    
