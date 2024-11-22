@@ -13,7 +13,7 @@ class PostData:
             raise ValueError("Expiration time must be non-negative")
         elif expire_after == 0:
             self._expire_after = -1
-            self._expiration_date = self._calculate_expiration(99999999)
+            #self._expiration_date = self._calculate_expiration(99999999)
         
         self._secret_text = secret_text
         self._expire_after_views = expire_after_views
@@ -22,7 +22,7 @@ class PostData:
         print(f"inserted expiartion number : {self._expire_after}")
         self._hash = self._generate_unique_hash()
         self._created_at = datetime.now()
-        self._expiration_date = self._calculate_expiration(expire_after)
+        #self._expiration_date = self._calculate_expiration(expire_after)
 
     @property
     def secret_text(self) -> str:
@@ -62,7 +62,8 @@ class PostData:
 
     @property
     def expiration_date(self) -> datetime:
-        return self._expiration_date
+        return
+        #return self._expiration_date
 
     def _generate_hash(self):
         return hashlib.sha256(self.secret_text.encode()).hexdigest()
@@ -107,10 +108,7 @@ class PostData:
         if not self._check_necessary_data():
             return False
         
-        if self._expiration_date:
-            expiration_date_str = self._expiration_date.strftime('%Y-%m-%d %H:%M:%S')
-        else:
-            expiration_date_str = None
+        
 
         # Prepare the insert query and data
         query = text(  """
