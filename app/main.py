@@ -1,6 +1,6 @@
 from .flask_app import create_app
 import schedule, time
-from .flask_app.model import ManageDB  # Import ManageDB here to avoid circular imports
+#from .flask_app.model import ManageDB  # Import ManageDB here to avoid circular imports
 from threading import Thread
 
 app = create_app()
@@ -8,7 +8,7 @@ app = create_app()
 # Initialize the scheduler after app creation
 def job():
     print("this is job runner")
-    ManageDB.ServerTick()
+    #ManageDB.ServerTick()
     
 
 def scheduler_thread():
