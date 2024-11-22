@@ -5,6 +5,7 @@ from sqlalchemy import text
 
 class PostData:
     def __init__(self, secret_text: str, expire_after_views: int, expire_after: int):
+        print(f"expire what i get is {expire_after}")
 
         if expire_after_views < 1:
             raise ValueError("Expiration values must be non-negative")
