@@ -7,7 +7,7 @@ def is_valid_request(req: request) -> bool:
     expire_after_views = data.get('retrievalCount')
     expire_after = data.get('expiryDate')
 
-    if not secret or not expire_after_views or not expire_after:
+    if not secret or not expire_after_views or not expire_after or expire_after == 0:
         return False
 
     try:
