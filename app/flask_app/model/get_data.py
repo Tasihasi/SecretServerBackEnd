@@ -47,7 +47,7 @@ class GetData:
             
 
             select_query = text("""
-            SELECT secretMessage FROM secret WHERE hashText = :hash AND retrievalCount > 0 AND expiration <= :current_time;
+            SELECT secretMessage FROM secret WHERE hashText = :hash AND retrievalCount > 0 AND expiration >= :current_time;
             """)
             result = db.session.execute(select_query, {'hash': self._hash, "current_time" : self.current_time}).fetchone()
 
