@@ -1,7 +1,7 @@
 from .flask_app import create_app, db
 import schedule, time
 from .flask_app.model import ManageDB  # Import ManageDB here to avoid circular imports
-import logging
+from threading import Thread
 
 app = create_app()
 
@@ -12,6 +12,7 @@ def job():
     
 
 def scheduler_thread():
+    schedule.every(1).minutes.do(job)
     while True:
         schedule.run_pending()
         time.sleep(1)
@@ -19,11 +20,12 @@ def scheduler_thread():
 
 if __name__ == "__main__":
     print("Starting app")
-    app.run(debug=True)
-    schedule.every(1).minutes.do(job)
 
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+    # Start the scheduler in a separate thread
+    scheduler = Thread(target=scheduler_thread)
+    scheduler.start()
+
+    app.run(debug=True)
+
 
     
