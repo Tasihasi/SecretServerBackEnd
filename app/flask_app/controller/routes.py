@@ -25,7 +25,7 @@ def save_secret():
             return jsonify({"Error": "Failed to save secret."}), 500
 
     except (KeyError, ValueError) as e:
-        return jsonify({"Error": "Invalid input"}), 405
+        return jsonify({"Error": "Invalid input exception thrown"}), 405
 
 
 @main_blueprint.route("/secret/<hash>", methods=['GET']) 
