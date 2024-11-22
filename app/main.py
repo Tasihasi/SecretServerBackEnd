@@ -12,6 +12,7 @@ def job():
     
 
 def scheduler_thread():
+    print("running schedule")
     schedule.every(1).minutes.do(job)
     while True:
         schedule.run_pending()
