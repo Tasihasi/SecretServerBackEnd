@@ -28,13 +28,15 @@ class GetData:
             SET retrievalCount = retrievalCount - 1
             WHERE hashText = :hash AND retrievalCount > 0;
             """)
-            db.session.execute(update_query, {'hash': self._hash})
-            db.session.commit()
+            
 
             select_query = text("""
             SELECT secretMessage FROM secret WHERE hashText = :hash AND retrievalCount > 0;
             """)
             result = db.session.execute(select_query, {'hash': self._hash}).fetchone()
+
+            db.session.execute(update_query, {'hash': self._hash})
+            db.session.commit()
 
             if result:
                 return result[0]
