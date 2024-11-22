@@ -7,6 +7,7 @@ app = create_app()
 
 # Initialize the scheduler after app creation
 def job():
+    print("this is job runner")
     ManageDB.ServerTick()
     
 
@@ -17,6 +18,7 @@ def scheduler_thread():
     
 
 if __name__ == "__main__":
+    print("Starting app")
     app.run(debug=True)
     schedule.every(1).minutes.do(job)
 
