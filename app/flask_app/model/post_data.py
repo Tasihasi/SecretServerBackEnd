@@ -18,7 +18,7 @@ class PostData:
         self._expire_after_views = expire_after_views
         
         self._expire_after = self._gen_current_time_to_int() + expire_after
-        print(f"inserted expiartion number : {self._expiration_date}")
+        print(f"inserted expiartion number : {self._expire_after}")
         self._hash = self._generate_unique_hash()
         self._created_at = datetime.now()
         self._expiration_date = self._calculate_expiration(expire_after)
