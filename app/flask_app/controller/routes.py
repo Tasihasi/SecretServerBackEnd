@@ -13,7 +13,7 @@ def home():
 @main_blueprint.route("/secret", methods=['POST']) 
 def save_secret():
     if not is_valid_request(request):
-        return jsonify({"Error": "Invalid input"}), 405
+        return jsonify({"Error": "Invalid input. Checked by the is valid "}), 405
     
     try:
         data = request.get_json()
