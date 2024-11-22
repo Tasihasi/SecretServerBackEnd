@@ -11,7 +11,7 @@ class PostData:
         if expire_after < 0:
             raise ValueError("Expiration time must be non-negative")
         elif expire_after == 0:
-            self.expire_after = -1
+            self._expire_after = -1
             self._expiration_date = self._calculate_expiration(99999999)
         
         self._secret_text = secret_text
