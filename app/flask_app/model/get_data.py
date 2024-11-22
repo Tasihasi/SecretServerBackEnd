@@ -4,6 +4,7 @@ from sqlalchemy import text
 class GetData:
     def __init__(self, hash : str):
         self._hash = hash
+        print("Running getting")
 
     @property
     def get_hash(self) -> str:

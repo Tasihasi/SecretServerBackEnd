@@ -70,5 +70,6 @@ class ManageDB:
     def ServerTick():
         ManageDB._check_retrievals()
         ManageDB._delete_expired_data()
+        print("running manage db")
 
     # TODO how to manage if the timer set to 0 and not wanting to delete?
